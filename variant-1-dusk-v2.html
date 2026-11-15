@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cubla Dusk v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* layout: graphite page, violet accent; the tub sits in a white disc that glows */
+:root{color-scheme:dark;--bg:#0a0a0c;--fg:#fafafa;--soft:#d4d4d8;--muted:#a1a1aa;--dim:#71717a;--line:rgba(255,255,255,.1);--glass:rgba(255,255,255,.04);
+  --accent:#a78bfa;--glow:rgba(139,109,255,.55);--on-accent:#0a0a0c;--mist:#71717a}
+:root{--d:"Plus Jakarta Sans",system-ui,sans-serif;--b:"Inter",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.65 var(--b);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--d);font-weight:800;letter-spacing:-.04em;line-height:1.02;text-wrap:balance}
+h2{font-size:clamp(2.25rem,5.4vw,4rem)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{width:100%;max-width:1160px;margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.btn{display:inline-block;background:var(--accent);color:var(--on-accent);padding:15px 28px;border-radius:999px;font:600 1rem var(--b);text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 40px -10px var(--glow);transition:all .3s}
+.btn:hover{transform:scale(1.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 12px 56px -6px var(--glow)}
+.logo{font:800 1.375rem var(--d);letter-spacing:-.05em;text-decoration:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+header{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:8px 8px 8px 22px;border:1px solid var(--line);border-radius:999px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+nav{display:flex;gap:28px;align-items:center}
+nav a:not(.btn){text-decoration:none;font-size:.9375rem;color:var(--muted);transition:color .3s}
+nav a:not(.btn):hover{color:var(--fg)}
+.cta .btn:not(.fire){background:var(--glass);color:var(--fg);box-shadow:inset 0 0 0 1px var(--line)}
+.cta .btn:not(.fire):hover{box-shadow:inset 0 0 0 1px var(--accent)}
+header .btn{padding:10px 18px;font-size:.9375rem}
+
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;padding-block:96px 160px}
+.hero h1{font-size:clamp(2.75rem,6.4vw,5.5rem)}
+.hero h1 span{display:block;color:var(--dim)}
+.hero p{max-width:44ch;margin:28px 0 36px;font-size:1.1875rem;color:var(--muted)}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.moon{position:relative;aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--line),0 0 160px -10px var(--glow)}
+.moon img{width:100%;height:100%;object-fit:contain;padding:13%;border-radius:50%}
+.steam{position:absolute;inset:-18% 20% 60%;pointer-events:none}
+.steam i{position:absolute;bottom:0;width:34%;height:70%;border-radius:50%;background:#fff;filter:blur(28px);opacity:0;animation:rise 7s ease-in infinite}
+.steam i:nth-child(1){left:8%}
+.steam i:nth-child(2){left:36%;animation-delay:2.3s}
+.steam i:nth-child(3){left:60%;animation-delay:4.6s}
+@keyframes rise{0%{transform:translateY(40%) scale(.6);opacity:0}30%{opacity:.2}100%{transform:translateY(-70%) scale(1.3);opacity:0}}
+
+section{padding-block:160px;border-top:1px solid var(--line)}
+.lede{font:700 clamp(1.375rem,2.6vw,2rem)/1.3 var(--d);letter-spacing:-.03em;max-width:28ch}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+
+.models{list-style:none;padding:0;margin:72px 0 0;display:grid;gap:12px}
+.models li{display:grid;grid-template-columns:96px 1.6fr 1fr 1fr auto;gap:28px;align-items:center;padding:16px 28px 16px 16px;border:1px solid var(--line);border-radius:20px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--soft);transition:all .3s}
+.models li:hover{border-color:var(--accent);background:rgba(255,255,255,.06);box-shadow:0 20px 60px -30px var(--glow)}
+.models img{width:96px;height:96px;border-radius:50%;background:#fff;object-fit:contain;padding:8px}
+.models h3{font-size:1.375rem;font-weight:700;color:var(--fg);line-height:1.1}
+.models small{display:block;color:var(--dim);font-size:.9375rem;margin-top:6px}
+.models .price{font:700 1.25rem var(--d);color:var(--fg);letter-spacing:-.02em;white-space:nowrap;text-align:right}
+.models .price small{font:400 .8125rem var(--b);margin:2px 0 0;letter-spacing:0}
+
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:72px}
+.why div{padding:32px;border:1px solid var(--line);border-radius:20px;background:var(--glass);transition:border-color .3s}
+.why div:hover{border-color:var(--accent)}
+.why h3{font-size:1.25rem;font-weight:700;letter-spacing:-.02em;margin-bottom:12px;line-height:1.25}
+.why p{color:var(--muted)}
+
+.call .split{align-items:center}
+.call p{max-width:46ch;margin:24px 0 36px;color:var(--muted)}
+.call img{width:100%;border-radius:20px;display:block;border:1px solid var(--line)}
+footer{padding-block:32px;border-top:1px solid var(--line);color:var(--dim);font-size:.875rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  nav a:not(.btn){display:none}
+  .hero,.split,.why{grid-template-columns:1fr}
+  .hero{padding-block:56px 96px;gap:56px}
+  .split{gap:32px}
+  .moon{max-width:440px;margin:0 auto;width:100%}
+  section{padding-block:96px}
+  .models,.why{margin-top:48px}
+  .models li{grid-template-columns:72px 1fr;gap:4px 16px;padding:16px}
+  .models img{width:72px;height:72px;grid-row:span 4}
+  .models li>*:not(img){grid-column:2}
+  .models .price{text-align:left;margin-top:4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="#">cubla</a>
+    <nav>
+      <a href="#models">Hot tubs</a>
+      <a href="#why">How they're made</a>
+      <a class="btn" href="#call">Book a video call</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>38° in the water.<span>Snow on the railing.</span></h1>
+        <p>Wood-fired acrylic hot tubs from the largest hot tub factory in Lithuania, delivered to your garden, cabin or terrace in Norway.</p>
+        <div class="cta">
+          <a class="btn fire" href="#models">Choose your tub</a>
+          <a class="btn" href="#call">Book a video call</a>
+        </div>
+      </div>
+      <div class="moon">
+        <div class="steam" aria-hidden="true"><i></i><i></i><i></i></div>
+        <img src="img/deluxe.jpg" alt="Round wood-clad hot tub with integrated stove, chimney and steps">
+      </div>
+    </div>
+
+    <section>
+      <div class="split">
+        <p class="lede">More than 6,600 tubs built so far, shipped to 11 European countries.</p>
+        <p class="lede" style="color:var(--mist)">Every single one is filled with water and tested before it leaves the factory.</p>
+      </div>
+    </section>
+
+    <section id="models">
+      <h2>Six shapes of the same evening</h2>
+      <ul class="models">
+        <li>
+          <img src="img/ofuro.jpg" alt="">
+          <div><h3>Ofuro</h3><small>Deep two-person soaking tub</small></div>
+          <span>170 × 110 cm</span><span>1–2 people</span>
+          <span class="price">from €1,300 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/wellness.jpg" alt="">
+          <div><h3>Wellness</h3><small>Round, external stove</small></div>
+          <span>Ø 180 cm</span><span>6–8 people</span>
+          <span class="price">from €1,400 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/square.jpg" alt="">
+          <div><h3>Square</h3><small>Square, external stove</small></div>
+          <span>180 × 180 cm</span><span>6–8 people</span>
+          <span class="price">from €1,700 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/top.jpg" alt="">
+          <div><h3>Wellness Integrated</h3><small>Round, stove built into the tub</small></div>
+          <span>Ø 180 cm</span><span>4–6 people</span>
+          <span class="price">from €2,000 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/deluxe.jpg" alt="">
+          <div><h3>Deluxe</h3><small>Our largest round tub, integrated stove</small></div>
+          <span>Ø 204 cm</span><span>6–8 people</span>
+          <span class="price">from €2,300 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/lounger.jpg" alt="">
+          <div><h3>Square Lounger</h3><small>Square with a lounger seat and integrated heater</small></div>
+          <span>180 × 180 cm</span><span>4–6 people</span>
+          <span class="price">from €2,800 <small>incl. VAT</small></span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="why">
+      <h2>Built to sit outside all winter</h2>
+      <div class="why">
+        <div>
+          <h3>The parts that matter are made in-house</h3>
+          <p>Acrylic liners from Austrian raw material and stainless steel stoves come from the same factory, under one quality control.</p>
+        </div>
+        <div>
+          <h3>Water that stays clean</h3>
+          <p>A sand filter and a UV lamp keep the water clear for a long time, so you fill the tub far less often.</p>
+        </div>
+        <div>
+          <h3>Massage where you want it</h3>
+          <p>Water jets and a 12-nozzle air system. You decide where they go and how strong they are.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<section class="call" id="call">
+  <div class="wrap split">
+    <div>
+      <h2>See the tub before you buy it</h2>
+      <p>Book a video call and a hot tub specialist walks you around the real thing in the showroom: materials, stove, jets, colours. Bring your questions and the size of your terrace.</p>
+      <a class="btn fire" href="mailto:hello@cubla.no?subject=Video%20call">Book a video call</a>
+    </div>
+    <img src="img/call1.jpg" alt="A specialist showing hot tubs in the showroom over a phone video call">
+  </div>
+</section>
+
+<div class="wrap">
+  <footer><span>© 2026 Cubla</span><span>Wood-fired hot tubs, delivered in Norway</span></footer>
+</div>
+</body>
+</html>

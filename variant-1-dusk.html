@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cubla Dusk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fjord:#0f2b33; --deep:#0a2027; --steam:#e9f1f0; --mist:#8fb0ae;
+  --ember:#ff8a3d; --moon:#fff; --line:rgba(233,241,240,.16);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fjord);color:var(--steam);font:400 1.0625rem/1.6 "Instrument Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1;margin:0}
+h2{font-size:clamp(2rem,4.5vw,3.5rem);max-width:16ch}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ember);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+header{display:flex;justify-content:space-between;align-items:center;padding-block:22px}
+.logo{font:800 1.5rem "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;text-decoration:none}
+nav{display:flex;gap:28px;align-items:center}
+nav a{text-decoration:none;font-weight:500}
+nav a:hover{color:var(--ember)}
+
+.btn{display:inline-block;padding:15px 26px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid var(--steam)}
+.btn.fire{background:var(--ember);border-color:var(--ember);color:#2a1202}
+.btn:hover{filter:brightness(1.1)}
+
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding-block:48px 96px}
+.hero h1{font-size:clamp(2.75rem,6.6vw,5.75rem)}
+.hero h1 span{display:block;color:var(--mist)}
+.hero p{max-width:44ch;margin:28px 0 36px;font-size:1.1875rem}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+
+/* the tub sits in a moon; the steam is the page's one moving thing */
+.moon{position:relative;aspect-ratio:1;border-radius:50%;background:var(--moon);box-shadow:0 0 140px rgba(255,138,61,.28)}
+.moon img{width:100%;height:100%;object-fit:contain;padding:13%;border-radius:50%}
+.steam{position:absolute;inset:-18% 20% 60%;pointer-events:none}
+.steam i{position:absolute;bottom:0;width:34%;height:70%;border-radius:50%;background:#fff;filter:blur(28px);opacity:0;animation:rise 7s ease-in infinite}
+.steam i:nth-child(1){left:8%}
+.steam i:nth-child(2){left:36%;animation-delay:2.3s}
+.steam i:nth-child(3){left:60%;animation-delay:4.6s}
+@keyframes rise{0%{transform:translateY(40%) scale(.6);opacity:0}30%{opacity:.22}100%{transform:translateY(-70%) scale(1.3);opacity:0}}
+@media (prefers-reduced-motion:reduce){.steam i{animation:none;opacity:.12}html{scroll-behavior:auto}}
+
+section{padding-block:96px;border-top:1px solid var(--line)}
+.lede{font-size:clamp(1.375rem,2.6vw,2rem);line-height:1.35;max-width:30ch;font-family:"Bricolage Grotesque",sans-serif;letter-spacing:-.015em}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+
+.models{list-style:none;padding:0;margin:56px 0 0}
+.models li{display:grid;grid-template-columns:112px 1.6fr 1fr 1fr auto;gap:28px;align-items:center;padding:22px 0;border-top:1px solid var(--line)}
+.models img{width:112px;height:112px;border-radius:50%;background:#fff;object-fit:contain;padding:10px}
+.models h3{font-size:1.5rem;letter-spacing:-.02em;line-height:1.1}
+.models small{display:block;color:var(--mist);font-size:.9375rem;margin-top:6px}
+.models .price{font:800 1.5rem "Bricolage Grotesque",sans-serif;white-space:nowrap}
+.models .price small{font:400 .8125rem "Instrument Sans",sans-serif;margin:0}
+.models a{font-weight:600;white-space:nowrap}
+.models a:hover{color:var(--ember)}
+
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px}
+.why h3{font-size:1.375rem;letter-spacing:-.02em;margin-bottom:12px;line-height:1.15}
+.why p{color:#c4d6d4}
+
+.call{background:var(--deep)}
+.call .split{align-items:center}
+.call p{max-width:46ch;margin:24px 0 32px}
+.call img{width:100%;border-radius:20px;display:block}
+
+footer{padding-block:36px;border-top:1px solid var(--line);color:var(--mist);font-size:.9375rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  nav a:not(.btn){display:none}
+  .hero,.split,.why{grid-template-columns:1fr}
+  .hero{padding-block:24px 64px}
+  .moon{max-width:440px;margin:0 auto;width:100%}
+  section{padding-block:64px}
+  .models li{grid-template-columns:80px 1fr;gap:6px 18px}
+  .models img{width:80px;height:80px;grid-row:span 4}
+  .models li>*:not(img){grid-column:2}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="#">cubla</a>
+    <nav>
+      <a href="#models">Hot tubs</a>
+      <a href="#why">How they're made</a>
+      <a class="btn" href="#call">Book a video call</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>38° in the water.<span>Snow on the railing.</span></h1>
+        <p>Wood-fired acrylic hot tubs from the largest hot tub factory in Lithuania, delivered to your garden, cabin or terrace in Norway.</p>
+        <div class="cta">
+          <a class="btn fire" href="#models">Choose your tub</a>
+          <a class="btn" href="#call">Book a video call</a>
+        </div>
+      </div>
+      <div class="moon">
+        <div class="steam" aria-hidden="true"><i></i><i></i><i></i></div>
+        <img src="img/deluxe.jpg" alt="Round wood-clad hot tub with integrated stove, chimney and steps">
+      </div>
+    </div>
+
+    <section>
+      <div class="split">
+        <p class="lede">More than 6,600 tubs built so far, shipped to 11 European countries.</p>
+        <p class="lede" style="color:var(--mist)">Every single one is filled with water and tested before it leaves the factory.</p>
+      </div>
+    </section>
+
+    <section id="models">
+      <h2>Six shapes of the same evening</h2>
+      <ul class="models">
+        <li>
+          <img src="img/ofuro.jpg" alt="">
+          <div><h3>Ofuro</h3><small>Deep two-person soaking tub</small></div>
+          <span>170 × 110 cm</span><span>1–2 people</span>
+          <span class="price">from €1,300 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/wellness.jpg" alt="">
+          <div><h3>Wellness</h3><small>Round, external stove</small></div>
+          <span>Ø 180 cm</span><span>6–8 people</span>
+          <span class="price">from €1,400 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/square.jpg" alt="">
+          <div><h3>Square</h3><small>Square, external stove</small></div>
+          <span>180 × 180 cm</span><span>6–8 people</span>
+          <span class="price">from €1,700 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/top.jpg" alt="">
+          <div><h3>Wellness Integrated</h3><small>Round, stove built into the tub</small></div>
+          <span>Ø 180 cm</span><span>4–6 people</span>
+          <span class="price">from €2,000 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/deluxe.jpg" alt="">
+          <div><h3>Deluxe</h3><small>Our largest round tub, integrated stove</small></div>
+          <span>Ø 204 cm</span><span>6–8 people</span>
+          <span class="price">from €2,300 <small>incl. VAT</small></span>
+        </li>
+        <li>
+          <img src="img/lounger.jpg" alt="">
+          <div><h3>Square Lounger</h3><small>Square with a lounger seat and integrated heater</small></div>
+          <span>180 × 180 cm</span><span>4–6 people</span>
+          <span class="price">from €2,800 <small>incl. VAT</small></span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="why">
+      <h2>Built to sit outside all winter</h2>
+      <div class="why">
+        <div>
+          <h3>The parts that matter are made in-house</h3>
+          <p>Acrylic liners from Austrian raw material and stainless steel stoves come from the same factory, under one quality control.</p>
+        </div>
+        <div>
+          <h3>Water that stays clean</h3>
+          <p>A sand filter and a UV lamp keep the water clear for a long time, so you fill the tub far less often.</p>
+        </div>
+        <div>
+          <h3>Massage where you want it</h3>
+          <p>Water jets and a 12-nozzle air system. You decide where they go and how strong they are.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<section class="call" id="call">
+  <div class="wrap split">
+    <div>
+      <h2>See the tub before you buy it</h2>
+      <p>Book a video call and a hot tub specialist walks you around the real thing in the showroom: materials, stove, jets, colours. Bring your questions and the size of your terrace.</p>
+      <a class="btn fire" href="mailto:hello@cubla.no?subject=Video%20call">Book a video call</a>
+    </div>
+    <img src="img/call1.jpg" alt="A specialist showing hot tubs in the showroom over a phone video call">
+  </div>
+</section>
+
+<div class="wrap">
+  <footer><span>© 2026 Cubla</span><span>Wood-fired hot tubs, delivered in Norway</span></footer>
+</div>
+</body>
+</html>

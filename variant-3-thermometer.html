@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cubla Thermometer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1b2230;--frost:#cfe2ee;--thaw:#ecebe4;--warm:#f6d9b4;--hot:#f0a468}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:400 1.0625rem/1.6 "Onest",system-ui,sans-serif}
+/* the whole page is one thermometer: cold at the top, hot at the bottom */
+.page{background:linear-gradient(var(--frost),var(--thaw) 35%,var(--warm) 70%,var(--hot))}
+h1,h2,h3,p{margin:0}
+h1,h2,.big{font-family:"Instrument Serif",serif;font-weight:400;line-height:.92;letter-spacing:-.02em}
+h1,.big{font-size:clamp(4rem,14.5vw,13rem)}
+h2{font-size:clamp(2.5rem,6vw,4.75rem)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px 0 96px}
+img.cut{mix-blend-mode:multiply} /* white studio backgrounds melt into the gradient */
+
+.gauge{position:fixed;left:24px;top:0;bottom:0;width:48px;z-index:5;pointer-events:none}
+.gauge::before{content:"";position:absolute;left:23px;top:88px;bottom:40px;width:2px;background:var(--ink);opacity:.25}
+.gauge output{position:absolute;left:0;top:88px;width:48px;text-align:center;font-weight:700;font-size:.9375rem;background:var(--ink);color:#fff;border-radius:999px;padding:5px 0;transform:translateY(-50%)}
+
+header{display:flex;justify-content:space-between;align-items:center;padding-block:22px}
+.logo{font:400 2rem/1 "Instrument Serif",serif;text-decoration:none}
+.btn{display:inline-block;background:var(--ink);color:#fff;padding:15px 26px;border-radius:999px;font-weight:500;text-decoration:none}
+.btn:hover{background:#000}
+.link{font-weight:500}
+
+.hero{min-height:calc(100vh - 90px);display:grid;grid-template-columns:1.25fr 1fr;align-items:center;gap:24px;padding-bottom:48px}
+.hero p{font-size:1.25rem;max-width:36ch;margin:28px 0 32px}
+.hero .cta{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.hero img{width:100%}
+
+section{padding-block:104px}
+.heat{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px}
+.heat b{font:400 5rem/1 "Instrument Serif",serif;display:block;margin-bottom:14px}
+.heat h3{font-size:1.25rem;font-weight:700;margin-bottom:8px}
+
+.models{display:grid;grid-template-columns:repeat(3,1fr);gap:56px 32px;margin-top:56px}
+.models img{width:100%;aspect-ratio:4/3;object-fit:contain}
+.models h3{font:400 2rem/1 "Instrument Serif",serif;margin:12px 0 6px}
+.models p{display:flex;justify-content:space-between;gap:12px;border-top:1.5px solid var(--ink);padding-top:10px;margin-top:12px;font-weight:500}
+
+.made{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.made ul{list-style:none;margin:0;padding:0}
+.made li{padding:22px 0;border-top:1.5px solid var(--ink);font-size:1.1875rem}
+.made li:last-child{border-bottom:1.5px solid var(--ink)}
+
+.end{text-align:center;padding-block:120px 136px}
+.end p{font-size:1.25rem;max-width:40ch;margin:28px auto 36px}
+footer{padding-block:28px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9375rem;border-top:1.5px solid var(--ink)}
+
+@media (max-width:820px){
+  .wrap{padding:0 20px}
+  .gauge{left:auto;right:16px;top:auto;bottom:16px;width:auto;height:auto}
+  .gauge::before{display:none}
+  .gauge output{position:static;display:block;width:auto;padding:8px 14px;transform:none!important;top:auto!important}
+  .hero,.made,.heat,.models{grid-template-columns:1fr}
+  .hero{min-height:0;padding-top:24px}
+  .hero img{max-width:420px;margin:0 auto}
+  section{padding-block:64px}
+  .heat{gap:32px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="gauge" aria-hidden="true"><output id="t">−8°</output></div>
+
+  <div class="wrap">
+    <header>
+      <a class="logo" href="#">Cubla</a>
+      <a class="btn" href="#end">Book a video call</a>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div>
+          <h1>−8° outside.</h1>
+          <p>Which is exactly the weather a wood-fired hot tub is for. Ours come from the largest hot tub factory in Lithuania and are delivered in Norway.</p>
+          <div class="cta">
+            <a class="btn" href="#models">See the tubs</a>
+            <a class="link" href="#heat">How it gets warm</a>
+          </div>
+        </div>
+        <img class="cut" src="img/wellness.jpg" alt="Round wooden hot tub with an external wood stove and tall chimney">
+      </div>
+
+      <section id="heat">
+        <h2>No electrician. Just fire and patience.</h2>
+        <div class="heat">
+          <div><b>6°</b><h3>Fill it from the garden hose</h3><p>The acrylic liner is smooth and seamless, so it rinses clean in minutes before you fill.</p></div>
+          <div><b>20°</b><h3>Light the stainless steel stove</h3><p>Built into the tub or standing beside it. A few armfuls of birch do the work.</p></div>
+          <div><b>38°</b><h3>Lift the lid and get in</h3><p>Turn on the water jets or the 12-nozzle air massage, and stay until the stars come out.</p></div>
+        </div>
+      </section>
+
+      <section id="models">
+        <h2>Six tubs, from two people to eight</h2>
+        <div class="models">
+          <article><img class="cut" src="img/ofuro.jpg" alt="Ofuro two-person tub"><h3>Ofuro</h3><span>170 × 110 cm, 1–2 people</span><p><span>from €1,300</span><a href="#end">Ask about it</a></p></article>
+          <article><img class="cut" src="img/wellness.jpg" alt="Wellness round tub with external stove"><h3>Wellness</h3><span>Ø 180 cm, 6–8 people</span><p><span>from €1,400</span><a href="#end">Ask about it</a></p></article>
+          <article><img class="cut" src="img/square.jpg" alt="Square tub with external stove"><h3>Square</h3><span>180 × 180 cm, 6–8 people</span><p><span>from €1,700</span><a href="#end">Ask about it</a></p></article>
+          <article><img class="cut" src="img/top.jpg" alt="Wellness Integrated tub seen from above"><h3>Wellness Integrated</h3><span>Ø 180 cm, 4–6 people</span><p><span>from €2,000</span><a href="#end">Ask about it</a></p></article>
+          <article><img class="cut" src="img/deluxe.jpg" alt="Deluxe round tub with integrated stove"><h3>Deluxe</h3><span>Ø 204 cm, 6–8 people</span><p><span>from €2,300</span><a href="#end">Ask about it</a></p></article>
+          <article><img class="cut" src="img/lounger.jpg" alt="Square Lounger tub with integrated heater"><h3>Square Lounger</h3><span>180 × 180 cm, 4–6 people</span><p><span>from €2,800</span><a href="#end">Ask about it</a></p></article>
+        </div>
+      </section>
+
+      <section class="made">
+        <h2>6,600 tubs built. Each one still gets tested.</h2>
+        <ul>
+          <li>Every tub is filled with water and tested at the factory before it ships.</li>
+          <li>Acrylic liners and stainless steel stoves are made in-house, from ISO-certified Austrian acrylic.</li>
+          <li>A sand filter and UV lamp keep the water clean for a long time.</li>
+          <li>Shipped to 11 European countries so far.</li>
+        </ul>
+      </section>
+
+      <section class="end" id="end">
+        <p class="big">38° inside.</p>
+        <p>Book a video call and we'll show you the tubs live from the showroom, then price the one you want.</p>
+        <a class="btn" href="mailto:hello@cubla.no?subject=Video%20call">Book a video call</a>
+      </section>
+    </main>
+
+    <footer><span>© 2026 Cubla</span><span>Wood-fired hot tubs, delivered in Norway</span></footer>
+  </div>
+</div>
+<script>
+// gauge follows scroll: −8° at the top of the page, 38° at the bottom
+const t = document.getElementById('t');
+addEventListener('scroll', () => {
+  const p = scrollY / (document.documentElement.scrollHeight - innerHeight) || 0;
+  t.textContent = Math.round(-8 + 46 * p).toString().replace('-', '−') + '°';
+  t.style.top = `calc(88px + ${p} * (100vh - 128px))`;
+}, { passive: true });
+</script>
+</body>
+</html>
